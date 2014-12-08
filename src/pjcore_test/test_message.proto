@@ -1,0 +1,73 @@
+// JSON [de]serialization for protobuf + embedded HTTP server and client in C++.
+// Copyright (C) 2014 http://protojson.com/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+package pjcore;
+
+import "pjcore/json.proto";
+
+message TestMessage {
+  enum TestEnum {
+    TEST_ALPHA = 1;
+    TEST_BETA = 2;
+  }
+
+  optional int32 optional_int32 = 1;
+  optional int64 optional_int64 = 2;
+  optional uint32 optional_uint32 = 3;
+  optional uint64 optional_uint64 = 4;
+  optional double optional_double = 5;
+  optional float optional_float = 6;
+  optional bool optional_bool = 7;
+  optional TestEnum optional_enum = 8;
+  optional string optional_string = 9;
+  optional bytes optional_bytes = 10;
+  optional TestMessage optional_message = 11;
+
+  repeated int32 repeated_int32 = 101;
+  repeated int64 repeated_int64 = 102;
+  repeated uint32 repeated_uint32 = 103;
+  repeated uint64 repeated_uint64 = 104;
+  repeated double repeated_double = 105;
+  repeated float repeated_float = 106;
+  repeated bool repeated_bool = 107;
+  repeated TestEnum repeated_enum = 108;
+  repeated string repeated_string = 109;
+  repeated bytes repeated_bytes = 110;
+  repeated TestMessage repeated_message = 111;
+}
+
+message TestMessageWithObjectProperties {
+  repeated JsonValue.Property object_properties = 201;
+}
+
+message TestMessageWithStringMap {
+  message Entry {
+    optional string name = 1;
+    optional int32 data = 2;
+  }
+
+  repeated Entry entries = 1;
+}
+
+message TestMessageWithIntMap {
+  message Entry {
+    optional int32 name = 1;
+    optional string data = 2;
+  }
+
+  repeated Entry entries = 1;
+}

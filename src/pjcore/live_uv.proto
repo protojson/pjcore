@@ -1,0 +1,81 @@
+// JSON [de]serialization for protobuf + embedded HTTP server and client in C++.
+// Copyright (C) 2014 http://protojson.com/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+package pjcore;
+
+import "pjcore/live.proto";
+
+message LiveUvBuf {
+  optional uint64 base_ptr = 1;
+  optional uint64 len = 2;
+}
+
+message LiveUvHandle {
+  optional uint64 ptr = 1;
+  optional int32 type = 2;
+  optional string type_str = 3;
+  optional uint64 close_cb_ptr = 4;
+  optional uint64 data_ptr = 5;
+  optional uint64 loop_ptr = 6;
+  optional int32 flags = 7;
+  optional bool flag_internal = 8;
+  optional bool flag_active = 9;
+  optional bool flag_ref = 10;
+  optional bool flag_closing = 11;
+}
+
+message LiveUvReq {
+  optional uint64 ptr = 1;
+  optional int32 type = 2;
+  optional string type_str = 3;
+  optional uint64 data_ptr = 5;
+}
+
+message LiveUvLoop {
+  optional uint64 uv_ptr = 1;
+  optional bool own_loop = 2;
+  optional uint64 loop_ptr = 3;
+  optional uint64 data_ptr = 4;
+  optional uint32 active_handles = 5;
+  optional uint32 stop_flag = 6;
+  repeated LiveUvHandle handle_queue = 7;
+  repeated LiveUvReq active_reqs = 8;
+}
+
+message LiveIdleLogger {
+  optional uint64 shared_loop_ptr = 1;
+  optional bool log_once = 2;
+  optional bool log_always = 3;
+  optional uint64 idle_handle_ptr = 4;
+}
+
+message LiveUvLoopFuture {
+  optional uint64 shared_loop_ptr = 1;
+  optional int32 pending_count = 2;
+}
+
+message LiveUvLoopAsyncClosureContext {
+  optional uint64 shared_loop_ptr = 1;
+  optional LiveCallback on_work = 2;
+  optional uint64 request_ptr = 3;
+}
+
+message LiveUvLoopAsyncCallbackContext {
+  optional uint64 shared_loop_ptr = 1;
+  optional LiveCallback on_work = 2;
+  optional uint64 request_ptr = 3;
+}
