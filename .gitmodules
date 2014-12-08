@@ -1,0 +1,18 @@
+[submodule "external/gyp"]
+	path = external/gyp
+	url = https://chromium.googlesource.com/external/gyp
+[submodule "external/gtest"]
+	path = external/gtest
+	url = https://chromium.googlesource.com/external/gtest
+[submodule "external/gmock"]
+	path = external/gmock
+	url = https://chromium.googlesource.com/external/gmock
+[submodule "external/protobuf"]
+	path = external/protobuf
+	url = https://github.com/google/protobuf.git
+[submodule "external/libuv"]
+	path = external/libuv
+	url = https://github.com/libuv/libuv.git
+[submodule "external/http-parser"]
+	path = external/http-parser
+	url = https://github.com/joyent/http-parser.git

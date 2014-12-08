@@ -1,0 +1,62 @@
+// JSON [de]serialization for protobuf + embedded HTTP server and client in C++.
+// Copyright (C) 2014 http://protojson.com/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+package pjcore;
+
+message JsonValue {
+  enum Type {
+    TYPE_NULL = 0;
+    TYPE_BOOL = 1;
+    TYPE_SIGNED = 2;
+    TYPE_UNSIGNED = 3;
+    TYPE_DOUBLE = 4;
+    TYPE_STRING = 5;
+    TYPE_OBJECT = 6;
+    TYPE_ARRAY = 7;
+  }
+
+  message Property {
+    optional string name = 1;
+    optional JsonValue value = 2;
+  }
+
+  optional Type type = 1;
+
+  optional bool bool_value = 2;
+  optional int64 signed_value = 3;
+  optional uint64 unsigned_value = 4;
+  optional double double_value = 5;
+  optional string string_value = 6;
+  repeated Property object_properties = 7;
+  repeated JsonValue array_elements = 8;
+}
+
+message JsonReaderConfig {
+  optional bool disallow_comments = 1;
+  optional bool disallow_trailing_commas = 2;
+  optional bool properties_as_is = 3;
+  optional bool allow_control_characters = 4;
+  optional bool disallow_nan_and_infinity = 5;
+}
+
+message JsonWriterConfig {
+  optional bool include_byte_order_mark = 1;
+  optional bool escape_unicode = 2;
+  optional bool space = 3;
+  optional uint32 indent = 4;
+  optional bool null_for_nan_and_infinity = 5;
+}

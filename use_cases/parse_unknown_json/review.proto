@@ -1,0 +1,7 @@
+import "pjcore/json.proto";
+
+message Review {
+  optional string reviewer = 1;
+  optional double rating = 2;
+  repeated pjcore.JsonValue.Property object_properties = 3;
+}

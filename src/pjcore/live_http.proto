@@ -1,0 +1,193 @@
+// JSON [de]serialization for protobuf + embedded HTTP server and client in C++.
+// Copyright (C) 2014 http://protojson.com/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+package pjcore;
+
+import "pjcore/error.proto";
+import "pjcore/http.proto";
+import "pjcore/live.proto";
+import "pjcore/live_addr_info.proto";
+import "pjcore/live_uv.proto";
+
+message LiveHttpRequest {
+  optional uint64 ptr = 1;
+  optional int32 method = 2;
+  optional string method_str = 3;
+  optional string url = 4;
+  optional ParsedUrl parsed_url = 5;
+  optional HttpVersion http_version = 6;
+  repeated HttpHeader headers = 7;
+  optional LiveContent content = 8;
+}
+
+message LiveHttpResponse {
+  optional uint64 ptr = 1;
+  optional HttpVersion http_version = 2;
+  optional HttpStatusCode status_code = 3;
+  repeated HttpHeader headers = 4;
+  optional LiveContent content = 5;
+}
+
+message LiveHttpParser {
+  optional uint64 ptr = 1;
+  optional HttpParserType type = 2;
+  optional int32 flags = 3;
+  optional bool flag_chunked = 4;
+  optional bool flag_connection_keep_alive = 5;
+  optional bool flag_connection_close = 6;
+  optional bool flag_trailing = 7;
+  optional bool flag_upgrade = 8;
+  optional bool flag_skipbody = 9;
+  optional int32 state = 10;
+  optional int32 header_state = 11;
+  optional int32 index = 12;
+  optional uint32 nread = 13;
+  optional uint64 content_length = 14;
+  optional uint32 http_major = 15;
+  optional uint32 http_minor = 16;
+  optional int32 status_code = 17;
+  optional string status_code_str = 18;
+  optional int32 method = 19;
+  optional string method_str = 20;
+  optional int32 http_errno = 21;
+  optional string http_errno_description = 22;
+  optional uint32 upgrade = 23;
+  optional uint64 data_ptr = 24;
+}
+
+message LiveHttpParserPlusPlus {
+  optional HttpParserType type = 1;
+  optional LiveHttpRequest pending_request = 2;
+  optional LiveHttpResponse pending_response = 3;
+  optional LiveHttpParser parser = 4;
+  optional uint64 error_ptr = 5;
+  repeated LiveHttpRequest request_queue = 6;
+  repeated LiveHttpResponse response_queue = 7;
+}
+
+message LiveHttpServerTransaction {
+  optional uint64 uv_ptr = 1;
+  optional LiveHttpRequest request = 2;
+  optional LiveHttpResponse response = 3;
+  optional LiveCallback on_write_complete = 4;
+  optional string response_header = 5;
+  optional uint64 write_bufs_ptr = 6;
+  repeated LiveUvBuf write_bufs = 7;
+  optional uint64 write_req_ptr = 8;
+}
+
+message LiveHttpServerConnection {
+  optional uint64 shared_loop_ptr = 1;
+  optional uint64 pending_transaction_count = 2;
+  optional uint64 listen_handle_ptr = 3;
+  optional uint64 handler_ptr = 4;
+  optional bool open = 5;
+  optional uint64 accept_handle_ptr = 6;
+  repeated uint64 handle_queue_ptr = 7;
+  repeated uint64 write_queue_ptr = 8;
+  optional LiveCallback on_closing = 9;
+  optional LiveCallback on_close = 10;
+  optional bool reading = 11;
+  optional bool closing = 12;
+  optional uint64 parser_ptr = 13;
+  optional uint64 buffer_size = 14;
+  optional uint64 buffer_ptr = 15;
+}
+
+message LiveHttpServerCore {
+  optional uint64 shell_ptr = 1;
+  optional uint64 open = 2;
+  optional uint64 pending_connection_count = 3;
+  optional uint64 pending_transaction_count = 4;
+  optional HttpServerConfig config = 6;
+  optional uint64 shared_loop_ptr = 7;
+  optional uint64 handler_ptr = 8;
+  optional uint64 listen_handle_ptr = 9;
+  optional LiveCallback on_destroy = 10;
+}
+
+message LiveHttpServer {
+  optional uint64 core_ptr = 1;
+  optional LiveCallback on_destroy = 2;
+}
+
+message LiveHttpClientTransaction {
+  optional uint64 uv_ptr = 1;
+  optional LiveHttpRequest request = 2;
+  optional NodeAndServiceName node_and_service_name = 3;
+  optional LiveCallback on_response = 4;
+}
+
+message LiveHttpClientConnection {
+  optional uint64 shared_loop_ptr = 1;
+  repeated LiveAddrInfo addr_infos = 2;
+  optional bool open = 3;
+  repeated uint64 wait_queue_ptr = 4;
+  repeated uint64 write_queue_ptr = 5;
+  repeated uint64 read_queue_ptr = 6;
+  optional LiveCallback on_closing = 7;
+  optional LiveCallback on_close = 8;
+  optional uint64 connect_handle_ptr = 9;
+  optional uint64 connect_req_ptr = 10;
+  optional bool reading = 11;
+  optional bool closing = 12;
+  optional uint64 parser_ptr = 13;
+  optional uint64 buffer_size = 14;
+  optional uint64 buffer_ptr = 15;
+}
+
+message LiveHttpClientConnectionGroup {
+  optional uint64 shared_loop_ptr = 1;
+  optional uint64 pending_resolve_count = 2;
+  optional uint64 pending_connection_count = 3;
+  optional NodeAndServiceName node_and_service_name = 4;
+  optional LiveAddrInfo resolve_hints = 5;
+  optional uint64 resolve_req_ptr = 6;
+  repeated LiveAddrInfo addr_infos = 7;
+  repeated uint64 open_connections_ptr = 8;
+  repeated uint64 closing_connections_ptr = 9;
+}
+
+message LiveHttpClientCore {
+  optional uint64 shell_ptr = 1;
+  optional uint64 pending_resolve_count = 2;
+  optional uint64 pending_connection_count = 3;
+  optional uint64 pending_transaction_count = 4;
+  optional HttpClientConfig config = 5;
+  optional uint64 shared_loop_ptr = 6;
+  repeated uint64 connection_groups_ptr = 7;
+  optional LiveCallback on_destroy = 8;
+}
+
+message LiveHttpClient {
+  optional uint64 core_ptr = 1;
+  optional LiveCallback on_destroy = 2;
+}
+
+message LiveHttpCallbackHandler {
+  optional LiveCallback callback = 1;
+}
+
+message LiveHttpPathHandler {
+  message PathHandlerEntry {
+    optional string path = 1;
+    optional uint64 handler_ptr = 2;
+  }
+
+  repeated PathHandlerEntry map = 1;
+  optional uint64 default_handler_ptr = 2;
+}

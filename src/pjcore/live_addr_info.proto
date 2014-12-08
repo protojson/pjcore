@@ -1,0 +1,53 @@
+// JSON [de]serialization for protobuf + embedded HTTP server and client in C++.
+// Copyright (C) 2014 http://protojson.com/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+package pjcore;
+
+message LiveAddrInfo {
+  enum FamilyType {
+    FAMILY_INET = 2;
+    FAMILY_INET6 = 10;
+  }
+
+  enum ProtocolType {
+    PROTOCOL_TCP = 6;
+    PROTOCOL_UDP = 17;
+  }
+
+  enum SocketType {
+    SOCKET_STREAM = 1;
+    SOCKET_DGRAM = 2;
+    SOCKET_RAW = 3;
+  }
+
+  optional uint64 ptr = 1;
+  optional int32 flags = 2;
+  optional bool flag_passive = 3;
+  optional bool flag_canonname = 4;
+  optional bool flag_numerichost = 5;
+  optional bool flag_numericserv = 6;
+  optional bool flag_all = 7;
+  optional bool flag_addrconfig = 8;
+  optional bool flag_v4mapped = 9;
+  optional FamilyType family = 10;
+  optional SocketType socket = 11;
+  optional ProtocolType protocol = 12;
+  optional string addr = 13;
+  optional int32 port = 14;
+  optional uint32 flowinfo = 15;
+  optional string canonname = 16;
+}
